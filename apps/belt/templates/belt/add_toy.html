@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Belt Exam</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" media="screen" title="no title">
+    <link rel="stylesheet" href="{% static 'belt/style.css' %}">
+  </head>
+  <body>
+    {% if messages %}
+      {% for message in messages %}
+          <p class="{{ message.tags }}" >{{message}}</p>
+      {% endfor %}
+    {% endif %}
+    <h3>Add Toy to My Wish List</h3>
+    <form action="/add_toy_process" method="post">
+      {% csrf_token %}
+      Name of Toy:
+      <input type="text" name="name" >
+      <input type="submit" value="Add Toy">
+    </form>
+    {% for toy in toys %}
+        <p>--{{ toy.name }} liked by {{ toy.user }}--</p>
+    {% endfor %}
+    {% for user in users %}
+        <p>--{{ user.first_name }}likes {{ user.toy }}--</p>
+    {% endfor %}
+  </body>
+</html>

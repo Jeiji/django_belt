@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Belt Exam</title>
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{% static 'belt/style.css' %}">
+</head>
+<body>
+  {% if messages %}
+    {% for message in messages %}
+      <p class="{{ message.tags }}" >{{message}}</p>
+    {% endfor %}
+  {% endif %}
+    <h2>Welcome,{{ user.first_name }}!</h2>
+    <a href="/add_toy">Add A toy</a>
+    <table>
+      <thead>
+        <tr>
+          <th>Item<th>
+          <th>Added By<th>
+          <th>Date Added<th>
+          <th>Action<th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for toy in toys %}
+            <tr>
+              <td>{{ toy.name }}</td>
+              {% for maker in makers  %}
+                {% if maker.toy.id == toy.id %}
+                    <td>{{ maker.user.first_name }}</td>
+                    {% if maker.user.id == request.session.userID %}
+                        <td><a href="/delete_toy_{{toy.id}}">Delete from List</a></td>
+                    {% else %}
+                        <td><a href="/remove_toy_{{toy.id}}">Remove from your wishlist</a></td>
+                    {% endif %}
+                {% endif %}
+              {% endfor %}
+
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="/logout">Log Out</a>
+</body>
+</html>
